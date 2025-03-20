@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section id="about" class="bg-light py-5">
+    <h2>Want to know About Us?</h2>
+    
+    <div class="row px-5">
+        <div class="col-md-6">
+            <img src="{% static 'images/logo.png' %}" alt="Contact Us" class="img-fluid" />
+        </div>
+        <div class="col-md-6 text-left">
+            <h4>Here are Details</h4>
+            <p>Phone: (234) 705-7890</p>
+            <p>Email: contact@mojjamtech.com</p>
+            <p>Address: 123 Tech Lane, Tech City, TC 12345</p>
+        </div>
+    </div>
+    <div class="row px-5 mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Our Mission
+                </div>
+                <div class="card-body">
+                    <p>
+                        We are dedicated to providing high-quality tech education and training. 
+                        Our experienced instructors, industry-relevant curriculum, and hands-on approach ensure 
+                        that students gain the practical skills and knowledge needed to excel in today's competitive 
+                        tech industry.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Our Vision
+                </div>
+                <div class="card-body">
+                    <p>
+                        We are committed to fostering innovation, critical thinking, and problem-solving 
+                        abilities, empowering learners to thrive in various tech careers. Through mentorship, real-world projects, 
+                        and continuous support, we help individuals stay ahead in the ever-evolving digital landscape, unlocking 
+                        new opportunities for professional growth and success.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</section>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mojjam Technologies</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <header class="bg-success text-white" id="home">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="logo">
+          <a href="{% url 'home' %}">
+            <img width="60px" height="60px" src="{% static 'images/logo1.png' %}" alt="Mojjam Technologies" />
+          </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLinks" aria-controls="navbarLinks" aria-expanded="false" aria-label="Toggle navigation">
+            ☰
+        </button>
+        <div class="collapse navbar-collapse" id="navbarLinks">
+          <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <script>
+          function toggleNavbar() {
+              var navbar = document.getElementById("navbarLinks");
+              if (navbar.style.display === "block") {
+                  navbar.style.display = "none";
+              } else {
+                  navbar.style.display = "block";
+              }
+          }
+      </script>
+    </header>
+
+    <section id="hero" class="bg-light text-center px-5" id="home">
+      <div class="hero-content">
+        <h1>Unlock Your Tech Potential</h1>
+        <p class="py-5">
+          Empowering individuals with cutting-edge tech skills for a brighter future, 
+          we strive to bridge the gap between knowledge and opportunity. 
+          By providing hands-on training, mentorship, and access to industry-leading tools, 
+          we equip learners with the expertise needed to excel in a rapidly evolving 
+          digital world. Our mission is to foster innovation, enhance career prospects, 
+          and inspire lifelong learning. Through a commitment to excellence and inclusivity, 
+          we create pathways for success, ensuring that technology remains a powerful force 
+          for positive change in society.
+        </p>
+        <a href="#" class="cta-button">Explore Courses</a>
+      </div>
+    </section>
+
+    <section id="courses" class="py-5 px-3" id="courses">
+      <h2>Our Courses</h2>
+      <div class="course-list">
+        <div class="course-item">
+          <img src="{% static 'images/web-design.png' %}" alt="Web Development Course" />
+          <h3>Web Development</h3>
+          <p>Learn to build dynamic and responsive websites.</p>
+          <a href="#" class="course-button">Learn More</a>
+        </div>
+        <div class="course-item">
+          <img src="{% static 'images/ai.png' %}" alt="Data Science Course" />
+          <h3>Data Science</h3>
+          <p>Master the art of data analysis and machine learning.</p>
+          <a href="#" class="course-button">Learn More</a>
+        </div>
+        <div class="course-item">
+          <img src="{% static 'images/mobile.png' %}" alt="Mobile App Development Course" />
+          <h3>Mobile App Development</h3>
+          <p>Create stunning mobile applications for iOS and Android.</p>
+          <a href="#" class="course-button">Learn More</a>
+        </div>
+        <div class="course-item">
+          <img src="{% static 'images/cybersecurity.png' %}" alt="Cybersecurity Course" />
+          <h3>Cybersecurity</h3>
+          <p>Learn to protect systems and networks from cyber threats.</p>
+          <a href="#" class="course-button">Learn More</a>
+        </div>
+        <div class="course-item">
+          <img src="{% static 'images/data-analytics.png' %}" alt="Data Analytics Course" />
+          <h3>Data Analytics</h3>
+          <p>Gain insights from data using statistical methods.</p>
+          <a href="#" class="course-button">Learn More</a>
+        </div>
+        <div class="course-item">
+          <img src="{% static 'images/cloud-computing.png' %}" alt="Cloud Computing Course" />
+          <h3>Cloud Computing</h3>
+          <p>Understand cloud services and how to deploy applications.</p>
+          <a href="#" class="course-button">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="bg-light py-5" id="about">
+      <h2>About Us</h2>
+      <p>
+        We are dedicated to providing high-quality tech education and training. 
+        Our experienced instructors, industry-relevant curriculum, and hands-on approach ensure 
+        that students gain the practical skills and knowledge needed to excel in today's competitive 
+        tech industry. We are committed to fostering innovation, critical thinking, and problem-solving 
+        abilities, empowering learners to thrive in various tech careers. Through mentorship, real-world projects, 
+        and continuous support, we help individuals stay ahead in the ever-evolving digital landscape, unlocking 
+        new opportunities for professional growth and success.
+      </p>
+    </section>
+
+    <section id="contact" class="py-5" id="contact">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <footer class="bg-success text-white text-center py-3">
+      <p>&copy; 2025 Mojjam Technologies. All rights reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

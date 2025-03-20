@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+<section id="courses" class="py-5 px-3">
+  <h2>Courses We Offer</h2>
+  {% load static %}
+  <div class="course-list">
+    <div class="course-item">
+      <img
+        src="{% static 'images/html-css.jpg' %}"
+        alt="Web Development Course"
+      />
+      <h3>Web Development</h3>
+      <p>Learn to build dynamic and responsive websites.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+    <div class="course-item">
+      <img
+        src="{% static 'images/data-science.jpg' %}"
+        alt="Data Science Course"
+      />
+      <h3>Data Science</h3>
+      <p>Master the art of data analysis and machine learning.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+    <div class="course-item">
+      <img
+        src="{% static 'images/mobile.png' %}"
+        alt="Mobile App Development Course"
+      />
+      <h3>Mobile App Development</h3>
+      <p>Create stunning mobile applications for iOS and Android.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+    <div class="course-item">
+      <img
+        src="{% static 'images/cyber-security.png' %}"
+        alt="Cybersecurity Course"
+      />
+      <h3>Cybersecurity</h3>
+      <p>Learn to protect systems and networks from cyber threats.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+    <div class="course-item">
+      <img src="{% static 'images/ui-ux.jpg' %}" alt="UIUX Course" />
+      <h3>UIUX</h3>
+      <p>Learn to design systems and networks of software.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+    <div class="course-item">
+      <img
+        src="{% static 'images/data-analytics.jpg' %}"
+        alt="Data Analytics Course"
+      />
+      <h3>Data Analytics</h3>
+      <p>Gain insights from data using statistical methods.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+    <div class="course-item">
+      <img
+        src="{% static 'images/cloud-computing.png' %}"
+        alt="Cloud Computing Course"
+      />
+      <h3>Cloud Computing</h3>
+      <p>Understand cloud services and how to deploy applications.</p>
+      <a href="#" class="course-button">Learn More</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

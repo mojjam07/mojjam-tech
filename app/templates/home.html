@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section id="hero" class="bg-light text-center px-5">
+  <img
+    src="{% static 'images/banner2.jpg' %}"
+    alt="Banner Image"
+    class="img-fluid mb-4"
+  />
+  <div class="hero-content">
+    <h1 class="py-3">Unlock Your Hidden Tech Potential</h1>
+    <p class="py-3">
+      Empowering individuals with cutting-edge tech skills for a brighter
+      future, we strive to bridge the gap between knowledge and opportunity. By
+      providing hands-on training, mentorship, and access to industry-leading
+      tools, we equip learners with the expertise needed to excel in a rapidly
+      evolving digital world. Our mission is to foster innovation, enhance
+      career prospects, and inspire lifelong learning. Through a commitment to
+      excellence and inclusivity, we create pathways for success, ensuring that
+      technology remains a powerful force for positive change in society.
+    </p>
+    <a href="{% url 'courses' %}" class="cta-button">Explore Courses</a>
+  </div>
+</section>
+{% endblock %}
