@@ -1,13 +1,63 @@
 {% extends 'base.html' %} {% block content %}
-<section id="contact" class="py-5">
-  <h2>Want to Reach Out to Us?</h2>
-  <form id="contact" method="POST">
-    {% csrf_token %} {% csrf_token %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-success text-white">
+          <h2 class="mb-0">Reach Out to Us</h2>
+        </div>
+        <div class="card-body">
+          <form
+            id="contact-form"
+            method="POST"
+            class="needs-validation"
+            novalidate
+          >
+            {% csrf_token %}
 
-    <input type="text" placeholder="Your Name" required />
-    <input type="email" placeholder="Your Email" required />
-    <textarea placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-</section>
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                required
+              />
+              <div class="invalid-feedback">Please enter your name.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required
+              />
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Your Message</label>
+              <textarea
+                class="form-control"
+                id="message"
+                name="message"
+                rows="5"
+                required
+              ></textarea>
+              <div class="invalid-feedback">Please enter your message.</div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,35 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('#contact form');
-    console.log(document); // Log the entire document to check if the form is present
-    console.log(form); // Log the form element to check if it is selected correctly
+    const form = document.getElementById('contact-form');
     
+    if (!form) {
+        console.warn('Contact form not found');
+        return;
+    }
+
     form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
 
-        // Simple form validation
-        const name = form.querySelector('input[type="text"]').value;
-        const email = form.querySelector('input[type="email"]').value;
-        const message = form.querySelector('textarea').value;
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'), 
+            message: formData.get('message')
+        };
 
-        if (name === '' || email === '' || message === '') {
+        if (!data.name || !data.email || !data.message) {
             alert('Please fill in all fields.');
             return;
         }
 
-        // If validation passes, send data to the backend
-        fetch('/contact/', {
+        fetch(form.action || '/contact/', {
             method: 'POST',
             headers: {
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email, message }),
+            body: JSON.stringify(data),
         })
         .then(response => {
             if (response.ok) {
                 alert('Form submitted successfully!');
                 form.reset();
             } else {
-                alert('There was a problem with your submission.');
+                throw new Error('Network response was not ok');
             }
         })
         .catch(error => {
