@@ -55,3 +55,49 @@ def delete_course(request, course_id):
     if request.method == 'DELETE':
         # Here you would typically delete the course from the database
         return JsonResponse({'message': 'Course deleted'}, status=204)
+
+def blog(request):
+    return render(request, 'blog.html')
+
+def testimonials(request):
+    return render(request, 'testimonials.html')
+
+def team(request):
+    return render(request, 'team.html')
+
+def privacy(request):
+    return render(request, 'privacy.html')
+
+def gallery(request):
+    return render(request, 'gallery.html')
+
+@csrf_protect
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        # Basic authentication check (replace with real auth in production)
+        if username == 'demo' and password == 'demo123':
+            return JsonResponse({
+                'success': True,
+                'redirect_url': '/dashboard/'  # Redirect to the new dashboard view
+            })
+        return JsonResponse({
+            'success': False,
+            'message': 'Invalid credentials'
+        }, status=401)
+    return render(request, 'login.html')
+
+@csrf_protect
+def signup(request):
+    if request.method == 'POST':
+        # In a real app, you would create a new user here
+        return JsonResponse({
+            'success': True,
+            'message': 'Account created successfully',
+            'redirect_url': '/team/'
+        })
+    return render(request, 'signup.html')

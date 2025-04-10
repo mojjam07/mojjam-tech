@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow">
+        <div class="card-body text-center py-5">
+            <h1 class="display-4 mb-4">Welcome to Your Dashboard!</h1>
+            <p class="lead mb-4">You have successfully logged in as <strong>demo</strong>.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'team' %}" class="btn btn-primary px-4">
+                    <i class="fas fa-users me-2"></i> Team Page
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary px-4">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

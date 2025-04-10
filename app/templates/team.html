@@ -1,0 +1,127 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container my-5">
+  <h1 class="text-center mb-5">Meet Our Team</h1>
+
+  <div class="row mb-5">
+    <h2 class="col-12 mb-4">Instructors</h2>
+    {% for i in "123" %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img
+          src="{% static 'images/placeholder.jpg' %}"
+          class="card-img-top"
+          alt="Instructor"
+        />
+        <div class="card-body">
+          <h3 class="card-title">Instructor Name</h3>
+          <p class="card-text">
+            Specializes in Web Development with 10+ years of experience.
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <h2 class="col-12 mb-4">Support Staff</h2>
+    {% for i in "12" %}
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <img
+          src="{% static 'images/placeholder.jpg' %}"
+          class="card-img-top"
+          alt="Staff"
+        />
+        <div class="card-body">
+          <h3 class="card-title">Staff Name</h3>
+          <p class="card-text">
+            Dedicated to providing excellent student support.
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="auth-section mb-5 p-4 border rounded bg-light">
+    <div class="text-center mb-3">
+      <button class="btn btn-primary mr-2" id="loginBtn">Login</button>
+      <button class="btn btn-success" id="signupBtn">Sign Up</button>
+    </div>
+
+    <div id="authForm" style="display: none">
+      <form id="authFormElement" method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            value="demo"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            value="demo123"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
+    const authForm = document.getElementById("authForm");
+    const authFormElement = document.getElementById("authFormElement");
+
+    // Toggle form visibility
+    loginBtn.addEventListener("click", function () {
+      authForm.style.display = "block";
+      authFormElement.action = "{% url 'login' %}";
+    });
+
+    signupBtn.addEventListener("click", function () {
+      authForm.style.display = "block";
+      authFormElement.action = "{% url 'signup' %}";
+    });
+
+    // Handle form submission
+    authFormElement.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch(this.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            window.location.href = data.redirect_url || "/";
+          } else {
+            alert(data.message || "Authentication failed");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred during authentication");
+        });
+    });
+  });
+</script>
+{% endblock %}
