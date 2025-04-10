@@ -1,19 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container my-5">
     <h1 class="text-center mb-4">Blog & Tutorials</h1>
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card mb-4">
+    
+    <!-- Sample/Dummy Posts -->
+    <div class="row mb-5">
+        <h2 class="mb-3">Sample Posts</h2>
+        {% for blog in dummy_blogs %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h2 class="card-title">Latest Technology Trends</h2>
-                    <p class="card-text">Stay updated with our latest articles and tutorials on emerging technologies.</p>
+                    <h3 class="card-title">{{ blog.title }}</h3>
+                    <p class="text-muted">{{ blog.date }}</p>
+                    <p class="card-text">{{ blog.content }}</p>
                     <a href="#" class="btn btn-success">Read More</a>
                 </div>
             </div>
-            <!-- More blog posts would go here -->
         </div>
+        {% endfor %}
+    </div>
+
+    <!-- Real User-Submitted Posts -->
+    <div class="row">
+        <h2 class="mb-3">Latest Posts</h2>
+        {% for blog in real_blogs %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title">{{ blog.title }}</h3>
+                    <p class="text-muted">{{ blog.created_at|date:"F j, Y" }}</p>
+                    <p class="card-text">{{ blog.content|truncatewords:30 }}</p>
+                    <p class="text-muted">Posted by: {{ blog.author.username }}</p>
+                    <a href="#" class="btn btn-success">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No blog posts yet. Be the first to post!
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

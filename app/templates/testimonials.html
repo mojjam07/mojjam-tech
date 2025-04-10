@@ -1,19 +1,66 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container my-5">
     <h1 class="text-center mb-4">Student Success Stories</h1>
-    <div class="row">
-        {% for i in "123" %}
+    
+    <!-- Sample Testimonials -->
+    <div class="row mb-5">
+        <h2 class="mb-3">What People Say</h2>
+        {% for testimonial in dummy_testimonials %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-                <div class="card-body">
-                    <div class="text-center mb-3">
-                        <i class="fas fa-user-circle fa-4x text-success"></i>
+                <div class="card-body text-center">
+                    <i class="fas fa-user-circle fa-4x text-success mb-3"></i>
+                    <h4>{{ testimonial.name }}</h4>
+                    <div class="text-warning mb-2">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.rating %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <p class="card-text">"The courses at Mojjam Technologies transformed my career. The hands-on approach made all the difference!"</p>
-                    <p class="text-muted">- Happy Student</p>
+                    <p class="card-text">"{{ testimonial.content }}"</p>
                 </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Real Testimonials -->
+    <div class="row">
+        <h2 class="mb-3">Customer Feedback</h2>
+        {% for testimonial in real_testimonials %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    {% if testimonial.image %}
+                    <img src="{{ testimonial.image.url }}" class="rounded-circle mb-3" width="80" alt="{{ testimonial.name }}">
+                    {% else %}
+                    <i class="fas fa-user-circle fa-4x text-success mb-3"></i>
+                    {% endif %}
+                    <h4>{{ testimonial.name }}</h4>
+                    <div class="text-warning mb-2">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.rating %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="card-text">"{{ testimonial.content }}"</p>
+                    <p class="text-muted small">{{ testimonial.created_at|date:"M Y" }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                No testimonials yet. Be the first to share your experience!
             </div>
         </div>
         {% endfor %}

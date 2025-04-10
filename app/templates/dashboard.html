@@ -61,7 +61,7 @@
       <div class="tab-content" id="dashboardTabsContent">
         <!-- Blog Form -->
         <div class="tab-pane fade show active" id="blog" role="tabpanel">
-          <form method="post" action="{% url 'blog_submit' %}">
+          <form method="post" action="{% url 'blog_submit' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
               <label for="blogTitle" class="form-label">Title</label>
@@ -83,13 +83,23 @@
                 required
               ></textarea>
             </div>
+            <div class="mb-3">
+              <label for="blogImage" class="form-label">Featured Image</label>
+              <input
+                type="file"
+                class="form-control"
+                id="blogImage"
+                name="image"
+                accept="image/*"
+              />
+            </div>
             <button type="submit" class="btn btn-primary">Submit Blog</button>
           </form>
         </div>
 
         <!-- Course Form -->
         <div class="tab-pane fade" id="course" role="tabpanel">
-          <form method="post" action="{% url 'course_submit' %}">
+          <form method="post" action="{% url 'course_submit' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
               <label for="courseTitle" class="form-label">Title</label>
@@ -112,6 +122,16 @@
                 rows="5"
                 required
               ></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="courseImage" class="form-label">Course Image</label>
+              <input
+                type="file"
+                class="form-control"
+                id="courseImage"
+                name="image"
+                accept="image/*"
+              />
             </div>
             <button type="submit" class="btn btn-primary">Submit Course</button>
           </form>
@@ -165,7 +185,7 @@
 
         <!-- Testimonial Form -->
         <div class="tab-pane fade" id="testimonial" role="tabpanel">
-          <form method="post" action="{% url 'testimonial_submit' %}">
+          <form method="post" action="{% url 'testimonial_submit' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
               <label for="testimonialName" class="form-label">Name</label>
@@ -201,6 +221,16 @@
                 min="1"
                 max="5"
                 required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="testimonialImage" class="form-label">User Photo</label>
+              <input
+                type="file"
+                class="form-control"
+                id="testimonialImage"
+                name="image"
+                accept="image/*"
               />
             </div>
             <button type="submit" class="btn btn-primary">

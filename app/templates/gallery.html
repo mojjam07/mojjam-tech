@@ -5,15 +5,40 @@
 <div class="container my-5">
     <h1 class="text-center mb-5">Project Gallery</h1>
     
-    <div class="row">
-        {% for i in "123456" %}
+    <!-- Sample Gallery Items -->
+    <div class="row mb-5">
+        <h2 class="mb-3">Example Projects</h2>
+        {% for item in dummy_gallery %}
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'images/project-placeholder.jpg' %}" class="card-img-top" alt="Project {{ forloop.counter }}">
+            <div class="card h-100">
+                <img src="{% static 'images/project-placeholder.jpg' %}" class="card-img-top" alt="{{ item.title }}">
                 <div class="card-body">
-                    <h3 class="card-title">Student Project {{ forloop.counter }}</h3>
-                    <p class="card-text">Example of student work from our courses.</p>
+                    <h3 class="card-title">{{ item.title }}</h3>
+                    <p class="card-text">{{ item.description }}</p>
                 </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Real Gallery Items -->
+    <div class="row">
+        <h2 class="mb-3">Student Submissions</h2>
+        {% for item in real_gallery %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}">
+                <div class="card-body">
+                    <h3 class="card-title">{{ item.title }}</h3>
+                    <p class="card-text">{{ item.description|truncatewords:15 }}</p>
+                    <p class="text-muted small">Uploaded: {{ item.uploaded_at|date:"M Y" }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                No gallery items yet. Check back soon for student projects!
             </div>
         </div>
         {% endfor %}

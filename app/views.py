@@ -11,7 +11,16 @@ def home(request):
     return render(request, 'home.html')
 
 def courses(request):
-    return render(request, 'courses.html')
+    # Get both dummy data and real courses
+    dummy_courses = [
+        {'title': 'Web Development', 'description': 'Learn full-stack web development...'},
+        {'title': 'Data Science', 'description': 'Master data analysis and visualization...'}
+    ]
+    real_courses = Course.objects.all().order_by('-created_at')
+    return render(request, 'courses.html', {
+        'dummy_courses': dummy_courses,
+        'real_courses': real_courses
+    })
 
 def about(request):
     return render(request, 'about.html')
@@ -20,10 +29,28 @@ def contact(request):
     return render(request, 'contact.html')
 
 def blog(request):
-    return render(request, 'blog.html')
+    # Get both dummy data and real blog posts
+    dummy_blogs = [
+        {'title': 'Sample Blog 1', 'content': 'This is a sample blog post content...', 'date': 'June 1, 2023'},
+        {'title': 'Sample Blog 2', 'content': 'Another example blog post content...', 'date': 'May 15, 2023'}
+    ]
+    real_blogs = Blog.objects.all().order_by('-created_at')
+    return render(request, 'blog.html', {
+        'dummy_blogs': dummy_blogs,
+        'real_blogs': real_blogs
+    })
 
 def testimonials(request):
-    return render(request, 'testimonials.html')
+    # Get both dummy data and real testimonials
+    dummy_testimonials = [
+        {'name': 'John Doe', 'content': 'Great service!', 'rating': 5},
+        {'name': 'Jane Smith', 'content': 'Very helpful', 'rating': 4}
+    ]
+    real_testimonials = Testimonial.objects.all().order_by('-created_at')
+    return render(request, 'testimonials.html', {
+        'dummy_testimonials': dummy_testimonials,
+        'real_testimonials': real_testimonials
+    })
 
 def team(request):
     return render(request, 'team.html')
@@ -32,7 +59,16 @@ def privacy(request):
     return render(request, 'privacy.html')
 
 def gallery(request):
-    return render(request, 'gallery.html')
+    # Get both dummy data and real gallery items
+    dummy_gallery = [
+        {'title': 'Event 1', 'description': 'Our first event'},
+        {'title': 'Workshop', 'description': 'Learning session'}
+    ]
+    real_gallery = Gallery.objects.all().order_by('-uploaded_at')
+    return render(request, 'gallery.html', {
+        'dummy_gallery': dummy_gallery,
+        'real_gallery': real_gallery
+    })
 
 # Authentication views
 def login(request):
@@ -97,9 +133,11 @@ def blog_submit(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
+        image = request.FILES.get('image')
         Blog.objects.create(
             title=title,
             content=content,
+            image=image,
             author=request.user
         )
         messages.success(request, 'Blog post created successfully!')
@@ -111,11 +149,22 @@ def course_submit(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        Course.objects.create(
-            title=title,
-            description=description
-        )
-        messages.success(request, 'Course created successfully!')
+        image = request.FILES.get('image')
+        
+        if not image:
+            messages.error(request, 'Please select an image for the course')
+            return redirect('dashboard')
+            
+        try:
+            Course.objects.create(
+                title=title,
+                description=description,
+                image=image
+            )
+            messages.success(request, 'Course created successfully!')
+        except Exception as e:
+            messages.error(request, f'Error creating course: {str(e)}')
+            
         return redirect('dashboard')
     return redirect('dashboard')
 
@@ -140,10 +189,12 @@ def testimonial_submit(request):
         name = request.POST.get('name')
         content = request.POST.get('content')
         rating = request.POST.get('rating')
+        image = request.FILES.get('image')
         Testimonial.objects.create(
             name=name,
             content=content,
-            rating=rating
+            rating=rating,
+            image=image
         )
         messages.success(request, 'Testimonial submitted successfully!')
         return redirect('dashboard')
