@@ -1,0 +1,63 @@
+# Django
+*.sqlite3
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.db
+*.log
+*.pot
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Static files
+/staticfiles/
+/mediafiles/
+
+# Database migrations (can be regenerated)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# macOS
+.DS_Store
+
+# Node/npm
+node_modules/
+npm-debug.log*
+
+# Testing
+.pytest_cache/
+
+# Production secrets
+secrets.py
+settings/local.py
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Debug files
+*.log
