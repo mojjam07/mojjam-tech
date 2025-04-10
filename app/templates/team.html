@@ -107,19 +107,25 @@
         body: formData,
         headers: {
           "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+          "X-Requested-With": "XMLHttpRequest"
         },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then(err => { throw err; });
+          }
+          return response.json();
+        })
         .then((data) => {
           if (data.success) {
-            window.location.href = data.redirect_url || "/";
+            window.location.href = data.redirect_url;
           } else {
             alert(data.message || "Authentication failed");
           }
         })
         .catch((error) => {
           console.error("Error:", error);
-          alert("An error occurred during authentication");
+          alert(error.message || "An error occurred during authentication");
         });
     });
   });

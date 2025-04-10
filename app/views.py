@@ -1,17 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_protect
-import json
-import logging
-from datetime import datetime
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import UserCreationForm
+from .models import Blog, Course, Gallery, Testimonial
 
-# Set up logging
-logger = logging.getLogger(__name__)
-
+# Basic page views
 def home(request):
-    current_year = datetime.now().year
-    return render(request, 'home.html', {'current_year': current_year})
+    return render(request, 'home.html')
 
 def courses(request):
     return render(request, 'courses.html')
@@ -20,41 +17,7 @@ def about(request):
     return render(request, 'about.html')
 
 def contact(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        # Log the received data
-        logger.info(f"Received data: {data}")
-        return JsonResponse({'message': 'Form submitted successfully!'}, status=201)
-    
     return render(request, 'contact.html')
-
-def get_courses(request):
-    courses = [
-        {"id": 1, "title": "Web Development", "description": "Learn to build dynamic and responsive websites."},
-        {"id": 2, "title": "Data Science", "description": "Master the art of data analysis and machine learning."},
-        {"id": 3, "title": "Mobile App Development", "description": "Create stunning mobile applications for iOS and Android."},
-    ]
-    return JsonResponse(courses, safe=False)
-
-@csrf_protect
-def create_course(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        # Here you would typically save the course to the database
-        return JsonResponse(data, status=201)
-
-@csrf_protect
-def update_course(request, course_id):
-    if request.method == 'PUT':
-        data = json.loads(request.body)
-        # Here you would typically update the course in the database
-        return JsonResponse(data, status=200)
-
-@csrf_protect
-def delete_course(request, course_id):
-    if request.method == 'DELETE':
-        # Here you would typically delete the course from the database
-        return JsonResponse({'message': 'Course deleted'}, status=204)
 
 def blog(request):
     return render(request, 'blog.html')
@@ -71,33 +34,117 @@ def privacy(request):
 def gallery(request):
     return render(request, 'gallery.html')
 
-@csrf_protect
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
+# Authentication views
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # Basic authentication check (replace with real auth in production)
-        if username == 'demo' and password == 'demo123':
-            return JsonResponse({
-                'success': True,
-                'redirect_url': '/dashboard/'  # Redirect to the new dashboard view
-            })
-        return JsonResponse({
-            'success': False,
-            'message': 'Invalid credentials'
-        }, status=401)
-    return render(request, 'login.html')
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            auth_login(request, user)
+            next_url = request.POST.get('next') or 'dashboard'
+            
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'redirect_url': reverse(next_url)
+                })
+            return redirect(next_url)
+        else:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Invalid username or password'
+                }, status=400)
+            messages.error(request, 'Invalid username or password')
+    
+    context = {}
+    if 'next' in request.GET:
+        context['next'] = request.GET['next']
+        
+    return render(request, 'login.html', context)
 
-@csrf_protect
 def signup(request):
     if request.method == 'POST':
-        # In a real app, you would create a new user here
-        return JsonResponse({
-            'success': True,
-            'message': 'Account created successfully',
-            'redirect_url': '/team/'
-        })
-    return render(request, 'signup.html')
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            auth_login(request, user)
+            return redirect('dashboard')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
+
+def logout(request):
+    auth_logout(request)
+    return redirect('home')
+
+# Dashboard views
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+@login_required
+def blog_submit(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        Blog.objects.create(
+            title=title,
+            content=content,
+            author=request.user
+        )
+        messages.success(request, 'Blog post created successfully!')
+        return redirect('dashboard')
+    return redirect('dashboard')
+
+@login_required
+def course_submit(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        Course.objects.create(
+            title=title,
+            description=description
+        )
+        messages.success(request, 'Course created successfully!')
+        return redirect('dashboard')
+    return redirect('dashboard')
+
+@login_required
+def gallery_submit(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        image = request.FILES.get('image')
+        description = request.POST.get('description')
+        Gallery.objects.create(
+            title=title,
+            image=image,
+            description=description
+        )
+        messages.success(request, 'Gallery item added successfully!')
+        return redirect('dashboard')
+    return redirect('dashboard')
+
+@login_required
+def testimonial_submit(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        content = request.POST.get('content')
+        rating = request.POST.get('rating')
+        Testimonial.objects.create(
+            name=name,
+            content=content,
+            rating=rating
+        )
+        messages.success(request, 'Testimonial submitted successfully!')
+        return redirect('dashboard')
+    return redirect('dashboard')
