@@ -3,7 +3,7 @@ from app.views import (
     home, courses, about, contact,
     blog, testimonials, team, privacy, gallery,
     login, logout, signup, dashboard,
-    blog_submit, course_submit, gallery_submit, testimonial_submit
+    blog_submit, course_submit, gallery_submit, testimonial_submit, team_member_submit
 )
 
 
@@ -25,4 +25,5 @@ urlpatterns = [
     path('dashboard/course-submit/', course_submit, name='course_submit'),
     path('dashboard/gallery-submit/', gallery_submit, name='gallery_submit'),
     path('dashboard/testimonial-submit/', testimonial_submit, name='testimonial_submit'),
+    path('dashboard/team-member-submit/', team_member_submit, name='team_member_submit'),
 ]

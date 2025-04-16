@@ -4,43 +4,63 @@
 
   <div class="row mb-5">
     <h2 class="col-12 mb-4">Instructors</h2>
-    {% for i in "123" %}
+    {% for member in instructors %}
     <div class="col-md-4 mb-4">
       <div class="card h-100">
+        {% if member.image %}
+        <img
+          src="{{ member.image.url }}"
+          class="card-img-top"
+          alt="{{ member.name }}"
+        />
+        {% else %}
         <img
           src="{% static 'images/placeholder.jpg' %}"
           class="card-img-top"
           alt="Instructor"
         />
+        {% endif %}
         <div class="card-body">
-          <h3 class="card-title">Instructor Name</h3>
+          <h3 class="card-title">{{ member.name }}</h3>
           <p class="card-text">
-            Specializes in Web Development with 10+ years of experience.
+            {{ member.description|default:"No description provided." }}
           </p>
         </div>
       </div>
     </div>
+    {% empty %}
+    <p class="text-muted">No instructors found.</p>
     {% endfor %}
   </div>
 
   <div class="row">
     <h2 class="col-12 mb-4">Support Staff</h2>
-    {% for i in "12" %}
+    {% for member in support_staff %}
     <div class="col-md-6 mb-4">
       <div class="card h-100">
+        {% if member.image %}
+        <img
+          src="{{ member.image.url }}"
+          class="card-img-top"
+          alt="{{ member.name }}"
+        />
+        {% else %}
         <img
           src="{% static 'images/placeholder.jpg' %}"
           class="card-img-top"
           alt="Staff"
         />
+        {% endif %}
         <div class="card-body">
-          <h3 class="card-title">Staff Name</h3>
+          <h3 class="card-title">{{ member.name }}</h3>
           <p class="card-text">
-            Dedicated to providing excellent student support.
+            {{ member.description|default:"No description provided." }}
           </p>
         </div>
       </div>
     </div>
+    {% empty %}
+    <p class="text-muted">No support staff found.</p>
     {% endfor %}
   </div>
   <div class="auth-section mb-5 p-4 border rounded bg-light">

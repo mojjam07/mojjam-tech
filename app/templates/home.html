@@ -1,10 +1,48 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<section id="hero" class="bg-light text-center px-5">
-  <img
-    src="{% static 'images/banner2.jpg' %}"
-    alt="Banner Image"
-    class="img-fluid mb-4"
-  />
+<style>
+  #hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 10px;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .cta-button:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+  }
+</style>
+
+<section id="hero">
   <div class="hero-content">
     <h1 class="py-3">Unlock Your Hidden Tech Potential</h1>
     <p class="py-3">
@@ -20,4 +58,23 @@
     <a href="{% url 'courses' %}" class="cta-button">Explore Courses</a>
   </div>
 </section>
+
+<script>
+  const hero = document.getElementById("hero");
+  const images = [
+    "{% static 'images/banner1.jpg' %}",
+    "{% static 'images/banner2.jpg' %}",
+    "{% static 'images/banner3.jpg' %}",
+  ];
+  let currentIndex = 0;
+
+  function changeBackground() {
+    hero.style.backgroundImage = `url(${images[currentIndex]})`;
+    hero.style.transition = "background-image 1s ease-in-out";
+    currentIndex = (currentIndex + 1) % images.length;
+  }
+
+  changeBackground();
+  setInterval(changeBackground, 5000);
+</script>
 {% endblock %}

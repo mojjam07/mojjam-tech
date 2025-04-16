@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import UserCreationForm
-from .models import Blog, Course, Gallery, Testimonial
+from .models import Blog, Course, Gallery, Testimonial, TeamMember
 
 # Basic page views
 def home(request):
@@ -53,7 +53,12 @@ def testimonials(request):
     })
 
 def team(request):
-    return render(request, 'team.html')
+    instructors = TeamMember.objects.filter(role='Instructor').order_by('-created_at')
+    support_staff = TeamMember.objects.filter(role='Support Staff').order_by('-created_at')
+    return render(request, 'team.html', {
+        'instructors': instructors,
+        'support_staff': support_staff
+    })
 
 def privacy(request):
     return render(request, 'privacy.html')
@@ -197,5 +202,25 @@ def testimonial_submit(request):
             image=image
         )
         messages.success(request, 'Testimonial submitted successfully!')
+        return redirect('dashboard')
+    return redirect('dashboard')
+
+@login_required
+def team_member_submit(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        role = request.POST.get('role')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
+        if not name or not role:
+            messages.error(request, 'Name and Role are required fields.')
+            return redirect('dashboard')
+        TeamMember.objects.create(
+            name=name,
+            role=role,
+            description=description,
+            image=image
+        )
+        messages.success(request, 'Team member added successfully!')
         return redirect('dashboard')
     return redirect('dashboard')

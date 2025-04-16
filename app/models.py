@@ -38,3 +38,17 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"Testimonial by {self.name}"
+
+class TeamMember(models.Model):
+    ROLE_CHOICES = [
+        ('Instructor', 'Instructor'),
+        ('Support Staff', 'Support Staff'),
+    ]
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    image = models.ImageField(upload_to='team_members/', blank=True, null=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.role})"

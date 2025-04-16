@@ -56,6 +56,18 @@
             Testimonial
           </button>
         </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="team-member-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#team-member"
+            type="button"
+            role="tab"
+          >
+            Team Member
+          </button>
+        </li>
       </ul>
 
       <div class="tab-content" id="dashboardTabsContent">
@@ -94,6 +106,55 @@
               />
             </div>
             <button type="submit" class="btn btn-primary">Submit Blog</button>
+          </form>
+        </div>
+        <!-- Team Member Form -->
+        <div class="tab-pane fade" id="team-member" role="tabpanel">
+          <form method="post" action="{% url 'team_member_submit' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="teamMemberName" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="teamMemberName"
+                name="name"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="teamMemberRole" class="form-label">Role</label>
+              <select
+                class="form-select"
+                id="teamMemberRole"
+                name="role"
+                required
+              >
+                <option value="">Select Role</option>
+                <option value="Instructor">Instructor</option>
+                <option value="Support Staff">Support Staff</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="teamMemberImage" class="form-label">Image</label>
+              <input
+                type="file"
+                class="form-control"
+                id="teamMemberImage"
+                name="image"
+                accept="image/*"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="teamMemberDescription" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="teamMemberDescription"
+                name="description"
+                rows="3"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Team Member</button>
           </form>
         </div>
 

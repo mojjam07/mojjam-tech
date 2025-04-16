@@ -1,11 +1,8 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <section id="courses" class="py-5 px-3">
-  <h1 class="text-center mb-4">Our Courses</h1>
-  
-  <!-- Sample Courses -->
+  <h1 class="text-center mb-4">Our Available Courses</h1>
+
+  <!-- Sample Courses 
   <h2 class="mb-3">Sample Courses</h2>
   <div class="course-list mb-5">
     {% for course in dummy_courses %}
@@ -16,21 +13,28 @@
       <a href="#" class="course-button">Learn More</a>
     </div>
     {% endfor %}
-  </div>
+  </div> -->
 
   <!-- Available Courses -->
-  <h2 class="mb-3">Available Courses</h2>
+  {% comment %}
+  <h2 class="mb-3">Courses</h2>
+  {% endcomment %}
   <div class="course-list">
     {% for course in real_courses %}
     <div class="course-item">
       {% if course.image %}
-      <img src="{{ course.image.url }}" alt="{{ course.title }}">
+      <img src="{{ course.image.url }}" alt="{{ course.title }}" />
       {% else %}
-      <img src="{% static 'images/course-placeholder.jpg' %}" alt="{{ course.title }}">
+      <img
+        src="{% static 'images/course-placeholder.jpg' %}"
+        alt="{{ course.title }}"
+      />
       {% endif %}
       <h3>{{ course.title }}</h3>
       <p>{{ course.description|truncatewords:20 }}</p>
-      <p class="text-muted small">Added: {{ course.created_at|date:"M d, Y" }}</p>
+      <p class="text-muted small">
+        Added: {{ course.created_at|date:"M d, Y" }}
+      </p>
       <a href="#" class="course-button">Enroll Now</a>
     </div>
     {% empty %}
